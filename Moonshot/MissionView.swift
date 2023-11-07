@@ -21,49 +21,16 @@ struct MissionView: View {
                     .font(.subheadline)
                     .foregroundStyle(.white.opacity(0.5))
                 VStack(alignment: .leading){
-                    Rectangle()
-                        .frame(height: 2)
-                        .foregroundStyle(.lightBackground)
-                        .padding(.vertical)
+                    DividerView()
                     Text("Mission Highlights")
                         .font(.title.bold())
                         .padding(.bottom, 5)
                     Text(mission.description)
-                    Rectangle()
-                        .frame(height: 2)
-                        .foregroundStyle(.lightBackground)
-                        .padding(.vertical)
+                    DividerView()
                     Text("Crew")
                         .font(.title.bold())
                         .padding(.bottom, 5)
-                    ScrollView(.horizontal,showsIndicators: false){
-                        HStack{
-                            ForEach(crew, id: \.role) {
-                                crewMember in
-                                NavigationLink{
-                                    AstronautView(astronaut: crewMember.astronaut)
-                                } label: {
-                                    HStack{
-                                        Image(crewMember.astronaut.id)
-                                            .resizable()
-                                            .frame(width: 104, height: 72)
-                                            .clipShape(Capsule())
-                                            .overlay(Capsule()
-                                                .strokeBorder(.white, lineWidth: 1)
-                                            )
-                                        VStack(alignment: .leading){
-                                            Text(crewMember.astronaut.name)
-                                                .foregroundStyle(.white)
-                                                .font(.headline)
-                                            Text(crewMember.role)
-                                                .foregroundStyle(.white.opacity(0.5))
-                                        }
-                                    }
-                                    .padding(.horizontal)
-                                }
-                            }
-                        }
-                    }
+                    AstronautScroll(crew: crew)
                 }
                 .padding(.horizontal)
             }
@@ -90,6 +57,49 @@ struct MissionView: View {
 struct CrewMember {
     let role: String
     let astronaut: Astronaut
+}
+
+struct DividerView: View{
+    var body: some View{
+        Rectangle()
+            .frame(height: 2)
+            .foregroundStyle(.lightBackground)
+            .padding(.vertical)
+    }
+}
+
+struct AstronautScroll : View{
+    let crew: [CrewMember]
+    var body: some View{
+        ScrollView(.horizontal,showsIndicators: false){
+            HStack{
+                ForEach(crew, id: \.role) {
+                    crewMember in
+                    NavigationLink{
+                        AstronautView(astronaut: crewMember.astronaut)
+                    } label: {
+                        HStack{
+                            Image(crewMember.astronaut.id)
+                                .resizable()
+                                .frame(width: 104, height: 72)
+                                .clipShape(Capsule())
+                                .overlay(Capsule()
+                                    .strokeBorder(.white, lineWidth: 1)
+                                )
+                            VStack(alignment: .leading){
+                                Text(crewMember.astronaut.name)
+                                    .foregroundStyle(.white)
+                                    .font(.headline)
+                                Text(crewMember.role)
+                                    .foregroundStyle(.white.opacity(0.5))
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+            }
+        }
+    }
 }
 
 //struct MissionView_Previews: PreviewProvider {
