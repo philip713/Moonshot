@@ -16,7 +16,7 @@ struct ContentView: View {
     ]
     @State var showingGrid = true
     var body: some View {
-        NavigationView{
+        NavigationStack{
             Group{
                 if showingGrid {
                     missionsGrid(astronauts: astronauts, missions: missions)
